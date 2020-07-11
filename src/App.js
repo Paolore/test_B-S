@@ -1,35 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const tasks = [
-  { 'id': 1, 'name': 'tarea 1', 'checked': 1 },
-  { 'id': 2, 'name': 'tarea 2', 'checked': 0 },
-  { 'id': 3, 'name': 'Hola yo como estas', 'checked': 1 }
-]
 
 function App() {
-  const [task, setTasks] = useState(tasks)
+  const [task, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
 
-  const handleInputChange = (e) => {
+  useEffect(async () => {
+    const response = await window.fetch(
+      `http://localhost:5000/task`, {
+      method: 'GET'
+    })
+    const res = await response.json()
+    setTasks(res)
+  }, [])
+
+  const handleInputChange = async (e) => {
     const id = +e.target.id
-    const checked = e.target.checked
-    for (let i = 0; i < task.length; i++) {
-      if (task[i].id === id) {
-        task[i].checked = +checked
-        setTasks([...task])
-      }
-    }
+    const checked = +e.target.checked
+    const newLine = { 'checked': checked }
+    const response = await window.fetch(
+      `http://localhost:5000/task/${id}`, {
+      method: 'PATCH',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newLine)
+    })
+    const res = await response.json()
+    setTasks(res)
   }
 
   const handleName = (e) => {
     setNewTask(e.target.value)
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
     const newLine = { 'id': +new Date(), 'name': newTask, 'checked': 0 }
-    setTasks([...task, newLine])
+    const response = await window.fetch(
+      `http://localhost:5000/task`, {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newLine)
+    })
+    const res = await response.json()
+    setTasks(res)
     setNewTask('')
   }
 
