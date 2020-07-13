@@ -47,6 +47,7 @@ function App() {
     <Layout>
       <Text title='Lista de tareas' />
       <NewTask
+        value={newTask}
         handleSubmit={handleSubmit}
         handleName={handleName}
       />

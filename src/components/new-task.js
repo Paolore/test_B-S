@@ -5,7 +5,7 @@ function NewTask(props) {
     <form onSubmit={props.handleSubmit}>
     <input
       className='new-task'
-      value={props.newTask}
+      value={props.value}
       type="text"
       placeholder='Nombre tarea'
       onChange={props.handleName}

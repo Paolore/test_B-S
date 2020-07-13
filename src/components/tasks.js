@@ -1,8 +1,10 @@
 import React from 'react'
 
+
 function List(props) {
   return (
     <>
+      <h3 className='title'>Seleccione una tarea para activarla</h3>
       {
         props.task.map(row => {
           return <div className='task-container' key={row.id}>

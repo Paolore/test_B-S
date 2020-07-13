@@ -8,6 +8,7 @@ const editTask = async (id, task) => {
     body: JSON.stringify(task)
   })
   const tasks = await response.json()
+  task.checked === 0 ? window.alert('Tarea desactivada') : window.alert('Tarea activada')
   return tasks
 }
 
