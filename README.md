@@ -1,5 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+To execute this project it is necessary to first run the Backend from this link  https://github.com/Paolore/test_B_S_back.git
 ## Available Scripts
 
 In the project directory, you can run:
