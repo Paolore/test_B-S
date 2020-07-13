@@ -1,38 +1,52 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  background: url('./public/static/font.jpg') center center no-repeat fixed;
+  background-size:cover;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+.container {
+  display: block;
+  width: 100vh;
+  margin-top: 30%;
+}
+.title {
+  text-align: center;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.new-task {
+  display: block;
+  width: 100%;
+  height: 30px;
+  background-color: rgb(197, 224, 247);
+  border-radius: 10px;
+  border-color: rgb(164, 202, 238);
+  border-width: 2px;
+  text-align: center;
+  font-size: 16px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.task-container {
+  width: 100%;
+  height: 30px;
+  background-color: azure;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  font-size: 16px;
+  border-left: 8px solid rgb(86, 143, 207) !important;
+}
+.task {
+  margin: 0;
+  padding: 10px 0px 10px 10px;
+}
+.button-container {
+  padding: 1%;
+  position: relative;
+  float: right;
+}
+.delete-button {
+  background-color: rgb(169, 208, 245);
+  border-radius: 13px;
+  height: 20px;
+  color: rgb(241, 14, 14);
+  border-width: 0px;
+  font-weight: bolder;
 }
