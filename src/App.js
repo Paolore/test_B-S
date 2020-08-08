@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+
+import Layout from './components/layout'
+import Text from './components/text'
+import Task from './components/tasks'
+import NewTask from './components/new-task'
+import ListTasks from './services/getTasksList'
+import NewTasks from './services/newTask'
+import editTasks from './services/editTask'
+import deleteTasks from './services/deleteTask'
 import './App.css';
 
 
@@ -6,83 +15,48 @@ function App() {
   const [task, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
 
-  useEffect(async () => {
-    const response = await window.fetch(
-      `http://localhost:5000/task`, {
-      method: 'GET'
-    })
-    const res = await response.json()
-    setTasks(res)
-  }, [])
-
-  const handleInputChange = async (e) => {
-    const id = +e.target.id
-    const checked = +e.target.checked
-    const newLine = { 'checked': checked }
-    const response = await window.fetch(
-      `http://localhost:5000/task/${id}`, {
-      method: 'PATCH',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newLine)
-    })
-    const res = await response.json()
-    setTasks(res)
-  }
-
   const handleName = (e) => {
     setNewTask(e.target.value)
   }
 
-  const submit = async (e) => {
+  useEffect(() => {
+    ListTasks().then(list => setTasks(list)
+    )
+  }, [])
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     const newLine = { 'id': +new Date(), 'name': newTask, 'checked': 0 }
-    const response = await window.fetch(
-      `http://localhost:5000/task`, {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newLine)
-    })
-    const res = await response.json()
-    setTasks(res)
+    NewTasks(newLine).then(tasks => setTasks(tasks))
     setNewTask('')
   }
 
-  return (
-    <div className="App">
-      <h1>Lista de tareas</h1>
+  const handleActiveInputChange = (e) => {
+    const id = +e.target.id
+    const checked = +e.target.checked
+    const newLine = { 'checked': checked }
+    editTasks(id, newLine).then(tasks => setTasks(tasks))
+  }
 
-      <div>
-        {
-          task.map(row => {
-            return <div key={row.id}>
-              <input
-                id={row.id}
-                type="checkbox"
-                checked={row.checked === 1}
-                onChange={handleInputChange}
-              />
-              <span>{row.name}</span>
-            </div>
-          })
-        }
-      </div>
-      <div>
-        <h4>Crear tarea</h4>
-        <input
-          value={newTask}
-          type="text"
-          placeholder='Nombre tarea'
-          onChange={handleName}
-        />
-        <button onClick={submit}>
-          Guardar
-      </button>
-      </div>
-    </div>
+  const handleDelete = (id) => {
+    deleteTasks(id).then(tasks => setTasks(tasks))
+  }
+
+
+  return (
+    <Layout>
+      <Text title='Lista de tareas' />
+      <NewTask
+        value={newTask}
+        handleSubmit={handleSubmit}
+        handleName={handleName}
+      />
+      <Task
+        task={task}
+        handleActiveInputChange={handleActiveInputChange}
+        handleDelete={handleDelete}
+      />
+    </Layout >
   );
 }
 
